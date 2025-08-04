@@ -201,7 +201,7 @@ export const SubIssuesListItem: React.FC<Props> = observer((props) => {
                   onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
-                    subIssueOperations.copyLink(workItemLink);
+                    subIssueOperations.copyLink(workItemLink, issue?.name);
                   }}
                 >
                   <div className="flex items-center gap-2">

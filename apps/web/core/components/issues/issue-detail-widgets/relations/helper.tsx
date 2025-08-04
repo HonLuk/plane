@@ -11,7 +11,7 @@ import { captureError, captureSuccess } from "@/helpers/event-tracker.helper";
 import { useIssueDetail } from "@/hooks/store";
 
 export type TRelationIssueOperations = {
-  copyLink: (path: string) => void;
+  copyLink: (path: string, perpendText?: string) => void;
   update: (workspaceSlug: string, projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>;
   remove: (workspaceSlug: string, projectId: string, issueId: string) => Promise<void>;
 };
@@ -26,8 +26,8 @@ export const useRelationOperations = (
 
   const issueOperations: TRelationIssueOperations = useMemo(
     () => ({
-      copyLink: (path) => {
-        copyUrlToClipboard(path).then(() => {
+      copyLink: (path, perpendText) => {
+        copyUrlToClipboard(path, perpendText).then(() => {
           setToast({
             type: TOAST_TYPE.SUCCESS,
             title: t("common.link_copied"),

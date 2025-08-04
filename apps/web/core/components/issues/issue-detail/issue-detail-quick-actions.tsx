@@ -7,7 +7,7 @@ import { WORK_ITEM_TRACKER_EVENTS } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import { EIssuesStoreType } from "@plane/types";
 import { TOAST_TYPE, Tooltip, setToast } from "@plane/ui";
-import { generateWorkItemLink, copyTextToClipboard } from "@plane/utils";
+import { generateWorkItemLink, copyTextToClipboard, copyUrlToClipboard } from "@plane/utils";
 // components
 import { IssueSubscription } from "@/components/issues";
 // helpers
@@ -66,8 +66,7 @@ export const IssueDetailQuickActions: FC<Props> = observer((props) => {
 
   // handlers
   const handleCopyText = () => {
-    const originURL = typeof window !== "undefined" && window.location.origin ? window.location.origin : "";
-    copyTextToClipboard(`${originURL}${workItemLink}`).then(() => {
+    copyUrlToClipboard(workItemLink, issue?.name).then(() => {
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.link_copied"),

@@ -17,7 +17,7 @@ import {
   Tooltip,
   setToast,
 } from "@plane/ui";
-import { copyUrlToClipboard, generateWorkItemLink } from "@plane/utils";
+import { copyTextToClipboard, copyUrlToClipboard, generateWorkItemLink } from "@plane/utils";
 // components
 import { IssueSubscription, NameDescriptionUpdateStatus, WorkItemDetailQuickActions } from "@/components/issues";
 import { captureError, captureSuccess } from "@/helpers/event-tracker.helper";
@@ -122,7 +122,7 @@ export const IssuePeekOverviewHeader: FC<PeekOverviewHeaderProps> = observer((pr
   const handleCopyText = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    copyUrlToClipboard(workItemLink).then(() => {
+    copyUrlToClipboard(workItemLink, issueDetails?.name).then(() => {
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.link_copied"),

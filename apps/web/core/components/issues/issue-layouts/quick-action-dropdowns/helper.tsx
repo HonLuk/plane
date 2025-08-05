@@ -90,7 +90,7 @@ export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
   );
 
   const handleCopyIssueLink = () =>
-    copyUrlToClipboard(workItemLink).then(() =>
+    copyUrlToClipboard(workItemLink, issue?.name).then(() =>
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: "Link copied",

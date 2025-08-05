@@ -49,7 +49,7 @@ export const IssueLinkDetail: FC<TIssueLinkDetail> = (props) => {
         <div
           className="flex w-full cursor-pointer items-start justify-between gap-2"
           onClick={() => {
-            copyTextToClipboard(linkDetail.url);
+            copyTextToClipboard(linkDetail.title ? `${linkDetail.title}\n${linkDetail.url}` : linkDetail.url);
             setToast({
               type: TOAST_TYPE.SUCCESS,
               title: "Link copied!",

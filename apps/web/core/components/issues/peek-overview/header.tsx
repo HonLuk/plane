@@ -118,7 +118,7 @@ export const IssuePeekOverviewHeader: FC<PeekOverviewHeaderProps> = observer((pr
   const handleCopyText = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    copyTextToClipboard(issueDetails?.name ? `${issueDetails.name}\n${workItemLink}` : workItemLink).then(() => {
+    copyUrlToClipboard(workItemLink, issueDetails?.name).then(() => {
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.link_copied"),

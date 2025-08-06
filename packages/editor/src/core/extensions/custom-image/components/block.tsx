@@ -94,7 +94,7 @@ export const CustomImageBlock: React.FC<CustomImageBlockProps> = (props) => {
 
     if (nodeWidth === "35%") {
       const editorWidth = closestEditorContainer.clientWidth;
-      const initialWidth = Math.max(editorWidth * 0.35, MIN_SIZE);
+      const initialWidth = Math.max(editorWidth * 1, MIN_SIZE);
       const initialHeight = initialWidth / aspectRatioCalculated;
 
       const initialComputedSize: TCustomImageSize = {

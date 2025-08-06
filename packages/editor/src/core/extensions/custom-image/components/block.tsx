@@ -51,6 +51,7 @@ export const CustomImageBlock: React.FC<CustomImageBlockProps> = (props) => {
   });
   const [isResizing, setIsResizing] = useState(false);
   const [initialResizeComplete, setInitialResizeComplete] = useState(false);
+  const [toggleFullScreenMethod, setToggleFullScreenMethod] = useState<((boolean) => void) | null>(null);
   // refs
   const containerRef = useRef<HTMLDivElement>(null);
   const containerRect = useRef<DOMRect | null>(null);
@@ -188,11 +189,15 @@ export const CustomImageBlock: React.FC<CustomImageBlockProps> = (props) => {
   const handleImageMouseDown = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
+      if (!editor.isEditable && toggleFullScreenMethod) {
+        toggleFullScreenMethod(true);
+        return;
+      }
       const pos = getPos();
       const nodeSelection = NodeSelection.create(editor.state.doc, pos);
       editor.view.dispatch(editor.state.tr.setSelection(nodeSelection));
     },
-    [editor, getPos]
+    [editor, getPos, toggleFullScreenMethod]
   );
 
   // show the image loader if the remote image's src or preview image from filesystem is not set yet (while loading the image post upload) (or)
@@ -221,6 +226,7 @@ export const CustomImageBlock: React.FC<CustomImageBlockProps> = (props) => {
         onMouseDown={handleImageMouseDown}
         style={{
           width: size.width,
+          cursor: editor.isEditable ? "" : "zoom-in",
           ...(size.aspectRatio && { aspectRatio: size.aspectRatio }),
         }}
       >
@@ -289,6 +295,7 @@ export const CustomImageBlock: React.FC<CustomImageBlockProps> = (props) => {
             handleAlignmentChange={(alignment) =>
               updateAttributesSafely({ alignment }, "Failed to update attributes while changing alignment:")
             }
+            setToggleFullScreenMethod={setToggleFullScreenMethod}
           />
         )}
         {selected && displayedImageSrc === resolvedImageSrc && (

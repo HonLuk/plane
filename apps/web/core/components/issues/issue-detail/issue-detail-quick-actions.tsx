@@ -160,7 +160,10 @@ export const IssueDetailQuickActions: FC<Props> = observer((props) => {
                 <LinkIcon className="h-4 w-4" />
               </button>
             </Tooltip>
-            <Tooltip tooltipContent={t("common.actions.edit")} isMobile={isMobile}>
+            <Tooltip
+              tooltipContent={isIssueEditNotAllowed ? t("common.actions.edit") : t("common.actions.lock")}
+              isMobile={isMobile}
+            >
               <button
                 type="button"
                 className="grid h-5 w-5 place-items-center rounded hover:text-custom-text-200 focus:outline-none focus:ring-2 focus:ring-custom-primary"

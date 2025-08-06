@@ -275,7 +275,7 @@ export const IssueDetailRoot: FC<TIssueDetailRoot> = observer((props) => {
       issueId,
     ]
   );
-  const { isIssueEditNotAllowed, toggleIssueEditAllowed } = useIssueEditNotAllowedContext();
+  const { isIssueEditNotAllowed } = useIssueEditNotAllowedContext();
 
   // issue details
   const issue = getIssueById(issueId);

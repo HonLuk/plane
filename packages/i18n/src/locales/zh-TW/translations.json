@@ -795,7 +795,8 @@
       "clear_sorting": "清除排序",
       "show_weekends": "顯示週末",
       "enable": "啟用",
-      "disable": "停用"
+      "disable": "停用",
+      "lock": "鎖定"
     },
     "name": "名稱",
     "discard": "捨棄",
@@ -2488,7 +2489,6 @@
     "plane_didnt_start_up_this_could_be_because_one_or_more_plane_services_failed_to_start": "Plane 未能啟動。這可能是因為一個或多個 Plane 服務啟動失敗。",
     "choose_view_logs_from_setup_sh_and_docker_logs_to_be_sure": "從 setup.sh 和 Docker 日誌中選擇 View Logs 來確認。"
   },
-
   "page_navigation_pane": {
     "tabs": {
       "outline": {

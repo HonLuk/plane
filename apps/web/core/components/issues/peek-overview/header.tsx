@@ -236,7 +236,10 @@ export const IssuePeekOverviewHeader: FC<PeekOverviewHeaderProps> = observer((pr
               <Link2 className="h-4 w-4 -rotate-45 text-custom-text-300 hover:text-custom-text-200" />
             </button>
           </Tooltip>
-          <Tooltip tooltipContent={t("common.actions.edit")} isMobile={isMobile}>
+          <Tooltip
+            tooltipContent={isIssueEditNotAllowed ? t("common.actions.edit") : t("common.actions.lock")}
+            isMobile={isMobile}
+          >
             <button type="button" onClick={toggleEditIssueAllowed}>
               {isIssueEditNotAllowed && <Pencil className="h-4 w-4 text-custom-text-300 hover:text-custom-text-200" />}
               {!isIssueEditNotAllowed && <Lock className="h-4 w-4 text-custom-text-300 hover:text-custom-text-200" />}

@@ -1,5 +1,5 @@
 import { Maximize } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 // plane imports
 import { Tooltip } from "@plane/ui";
 // local imports
@@ -14,10 +14,11 @@ type Props = {
     aspectRatio: number;
   };
   toggleToolbarViewStatus: (val: boolean) => void;
+  setToggleFullScreenMethod: (func: (boolean) => void) => void;
 };
 
 export const ImageFullScreenActionRoot: React.FC<Props> = (props) => {
-  const { image, toggleToolbarViewStatus } = props;
+  const { image, toggleToolbarViewStatus, setToggleFullScreenMethod } = props;
   // states
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(false);
   // derived values
@@ -27,6 +28,12 @@ export const ImageFullScreenActionRoot: React.FC<Props> = (props) => {
     toggleToolbarViewStatus(isFullScreenEnabled);
   }, [isFullScreenEnabled, toggleToolbarViewStatus]);
 
+  const toggleFullScreen = useCallback((val) => {
+    setIsFullScreenEnabled(val);
+  }, []);
+  useEffect(() => {
+    setToggleFullScreenMethod(() => toggleFullScreen);
+  }, [toggleFullScreen, setToggleFullScreenMethod]);
   return (
     <>
       <ImageFullScreenModal

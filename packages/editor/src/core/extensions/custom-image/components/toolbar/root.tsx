@@ -17,10 +17,11 @@ type Props = {
   src: string;
   downloadSrc: string;
   handleAlignmentChange: (alignment: TCustomImageAlignment) => void;
+  setToggleFullScreenMethod: (func: (boolean) => void) => void;
 };
 
 export const ImageToolbarRoot: React.FC<Props> = (props) => {
-  const { alignment, editor, downloadSrc, handleAlignmentChange } = props;
+  const { alignment, editor, downloadSrc, handleAlignmentChange, setToggleFullScreenMethod } = props;
   // states
   const [shouldShowToolbar, setShouldShowToolbar] = useState(false);
   // derived values
@@ -44,7 +45,11 @@ export const ImageToolbarRoot: React.FC<Props> = (props) => {
             toggleToolbarViewStatus={setShouldShowToolbar}
           />
         )}
-        <ImageFullScreenActionRoot image={props} toggleToolbarViewStatus={setShouldShowToolbar} />
+        <ImageFullScreenActionRoot
+          image={props}
+          toggleToolbarViewStatus={setShouldShowToolbar}
+          setToggleFullScreenMethod={setToggleFullScreenMethod}
+        />
       </div>
     </>
   );

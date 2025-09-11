@@ -884,7 +884,8 @@
     "planned": "已計劃",
     "paused": "暫停",
     "at_risk": "有風險",
-    "no_of": "{entity} 的數量"
+    "no_of": "{entity} 的數量",
+    "resolved": "已解決"
   },
   "chart": {
     "x_axis": "X 軸",
@@ -918,6 +919,10 @@
     "add": {
       "success": "{entity} 新增成功",
       "failed": "新增 {entity} 時發生錯誤"
+    },
+    "remove": {
+      "success": "{entity} 刪除成功",
+      "failed": "刪除 {entity} 時發生錯誤"
     }
   },
   "epic": {

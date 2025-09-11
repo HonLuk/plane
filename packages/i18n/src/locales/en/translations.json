@@ -726,7 +726,8 @@
     "apply": "Apply",
     "applying": "Applying",
     "overview": "Overview",
-    "no_of": "No. of {entity}"
+    "no_of": "No. of {entity}",
+    "resolved": "Resolved"
   },
   "chart": {
     "x_axis": "X-axis",
@@ -760,6 +761,10 @@
     "add": {
       "success": "{entity} added successfully",
       "failed": "Error adding {entity}"
+    },
+    "remove": {
+      "success": "{entity} removed successfully",
+      "failed": "Error removing {entity}"
     }
   },
   "epic": {

@@ -7,18 +7,19 @@ import { ImageFullScreenModal } from "./modal";
 
 type Props = {
   image: {
-    downloadSrc: string;
-    src: string;
-    height: string;
-    width: string;
     aspectRatio: number;
+    downloadSrc: string;
+    height: string;
+    src: string;
+    width: string;
   };
+  isTouchDevice: boolean;
   toggleToolbarViewStatus: (val: boolean) => void;
   setToggleFullScreenMethod: (func: (boolean) => void) => void;
 };
 
 export const ImageFullScreenActionRoot: React.FC<Props> = (props) => {
-  const { image, toggleToolbarViewStatus, setToggleFullScreenMethod } = props;
+  const { image, isTouchDevice, toggleToolbarViewStatus, setToggleFullScreenMethod } = props;
   // states
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(false);
   // derived values
@@ -38,13 +39,14 @@ export const ImageFullScreenActionRoot: React.FC<Props> = (props) => {
     <>
       <ImageFullScreenModal
         aspectRatio={aspectRatio}
-        isFullScreenEnabled={isFullScreenEnabled}
-        src={src}
         downloadSrc={downloadSrc}
+        isFullScreenEnabled={isFullScreenEnabled}
+        isTouchDevice={isTouchDevice}
+        src={src}
         width={width}
         toggleFullScreenMode={setIsFullScreenEnabled}
       />
-      <Tooltip tooltipContent="View in full screen">
+      <Tooltip tooltipContent="View in full screen" disabled={isTouchDevice}>
         <button
           type="button"
           onClick={(e) => {

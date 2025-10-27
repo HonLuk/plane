@@ -4,7 +4,9 @@ import nh3
 from plane.utils.exception_logger import log_exception
 from bs4 import BeautifulSoup
 from collections import defaultdict
+import logging
 
+logger = logging.getLogger("plane.api")
 
 # Maximum allowed size for binary data (10MB)
 MAX_SIZE = 10 * 1024 * 1024
@@ -86,6 +88,7 @@ ATTRIBUTES = {
         "style",
         "start",
         "type",
+        "xmlns",
         # common editor data-* attributes seen in stored HTML
         # (wildcards like data-* are NOT supported by nh3; we add known keys
         # here and dynamically include all data-* seen in the input below)
@@ -233,8 +236,9 @@ def validate_html_content(html_content: str):
                 summary = json.dumps(diff)
             except Exception:
                 summary = str(diff)
+            logger.warning(f"HTML sanitization removals: {summary}")
             log_exception(
-                f"HTML sanitization removals: {summary}",
+                ValueError(f"HTML sanitization removals: {summary}"),
                 warning=True,
             )
         return True, None, clean_html

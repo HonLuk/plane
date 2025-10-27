@@ -51,7 +51,7 @@ export const CustomImageBlock: React.FC<CustomImageBlockProps> = (props) => {
   });
   const [isResizing, setIsResizing] = useState(false);
   const [initialResizeComplete, setInitialResizeComplete] = useState(false);
-  const [toggleFullScreenMethod, setToggleFullScreenMethod] = useState<((boolean) => void) | null>(null);
+  const [toggleFullScreenMethod, setToggleFullScreenMethod] = useState<((val: boolean) => void) | null>(null);
   // refs
   const containerRef = useRef<HTMLDivElement>(null);
   const containerRect = useRef<DOMRect | null>(null);

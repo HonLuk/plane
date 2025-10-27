@@ -18,7 +18,7 @@ type Props = {
   isTouchDevice: boolean;
   src: string;
   width: string;
-  setToggleFullScreenMethod: (func: (boolean) => void) => void;
+  setToggleFullScreenMethod: (func: (val: boolean) => void) => void;
 };
 
 export const ImageToolbarRoot: React.FC<Props> = (props) => {

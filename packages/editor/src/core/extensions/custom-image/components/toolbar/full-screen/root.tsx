@@ -15,7 +15,7 @@ type Props = {
   };
   isTouchDevice: boolean;
   toggleToolbarViewStatus: (val: boolean) => void;
-  setToggleFullScreenMethod: (func: (boolean) => void) => void;
+  setToggleFullScreenMethod: (func: (val: boolean) => void) => void;
 };
 
 export const ImageFullScreenActionRoot: React.FC<Props> = (props) => {
@@ -29,7 +29,7 @@ export const ImageFullScreenActionRoot: React.FC<Props> = (props) => {
     toggleToolbarViewStatus(isFullScreenEnabled);
   }, [isFullScreenEnabled, toggleToolbarViewStatus]);
 
-  const toggleFullScreen = useCallback((val) => {
+  const toggleFullScreen = useCallback((val: boolean) => {
     setIsFullScreenEnabled(val);
   }, []);
   useEffect(() => {

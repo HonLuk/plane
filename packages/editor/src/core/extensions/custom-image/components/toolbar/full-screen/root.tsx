@@ -18,7 +18,7 @@ type Props = {
   setToggleFullScreenMethod: (func: (val: boolean) => void) => void;
 };
 
-export const ImageFullScreenActionRoot: React.FC<Props> = (props) => {
+export function ImageFullScreenActionRoot(props: Props) {
   const { image, isTouchDevice, toggleToolbarViewStatus, setToggleFullScreenMethod } = props;
   // states
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(false);
@@ -62,4 +62,4 @@ export const ImageFullScreenActionRoot: React.FC<Props> = (props) => {
       </Tooltip>
     </>
   );
-};
+}

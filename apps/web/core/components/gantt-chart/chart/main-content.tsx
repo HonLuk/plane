@@ -17,7 +17,11 @@ import { GanttChartSidebar, MonthChartView, QuarterChartView, WeekChartView } fr
 // hooks
 import { useTimeLineChartStore } from "@/hooks/use-timeline-chart";
 // plane web components
-import { TimelineDependencyPaths, TimelineDraggablePath } from "@/plane-web/components/gantt-chart";
+import {
+  TimelineDependencyPaths,
+  TimelineDraggablePath,
+  GanttAdditionalLayers,
+} from "@/plane-web/components/gantt-chart";
 import { GanttChartRowList } from "@/plane-web/components/gantt-chart/blocks/block-row-list";
 import { GanttChartBlocksList } from "@/plane-web/components/gantt-chart/blocks/blocks-list";
 import { IssueBulkOperationsRoot } from "@/plane-web/components/issues/bulk-operations";
@@ -56,7 +60,7 @@ type Props = {
   isEpic?: boolean;
 };
 
-export const GanttChartMainContent: React.FC<Props> = observer((props) => {
+export const GanttChartMainContent = observer(function GanttChartMainContent(props: Props) {
   const {
     blockIds,
     loadMoreBlocks,
@@ -187,6 +191,7 @@ export const GanttChartMainContent: React.FC<Props> = observer((props) => {
                 title={title}
                 quickAdd={quickAdd}
                 selectionHelpers={helpers}
+                showAllBlocks={showAllBlocks}
                 isEpic={isEpic}
               />
               <div className="relative min-h-full h-max flex-shrink-0 flex-grow">
@@ -211,6 +216,7 @@ export const GanttChartMainContent: React.FC<Props> = observer((props) => {
                     />
                     <TimelineDependencyPaths isEpic={isEpic} />
                     <TimelineDraggablePath />
+                    <GanttAdditionalLayers itemsContainerWidth={itemsContainerWidth} blockCount={blockIds.length} />
                     <GanttChartBlocksList
                       blockIds={blockIds}
                       blockToRender={blockToRender}

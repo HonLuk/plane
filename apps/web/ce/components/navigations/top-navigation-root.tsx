@@ -13,7 +13,6 @@ import { InboxIcon } from "@plane/propel/icons";
 import useSWR from "swr";
 import { useWorkspaceNotifications } from "@/hooks/store/notifications";
 // local imports
-import { StarUsOnGitHubLink } from "@/app/(all)/[workspaceSlug]/(projects)/star-us-link";
 
 export const TopNavigationRoot = observer(function TopNavigationRoot() {
   // router
@@ -72,7 +71,7 @@ export const TopNavigationRoot = observer(function TopNavigationRoot() {
           />
         </Tooltip>
         <HelpMenuRoot />
-        <StarUsOnGitHubLink />
+        {/* <StarUsOnGitHubLink /> */}
         <div className="flex items-center justify-center size-8 hover:bg-custom-background-80 rounded-md">
           <UserMenuRoot size="xs" />
         </div>

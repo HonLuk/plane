@@ -62,12 +62,12 @@ export const HelpMenuRoot = observer(function HelpMenuRoot() {
             </button>
           </CustomMenu.MenuItem>
         )}
-        <CustomMenu.MenuItem onClick={() => window.open("mailto:sales@plane.so", "_blank")}>
+        {/* <CustomMenu.MenuItem onClick={() => window.open("mailto:sales@plane.so", "_blank")}>
           <div className="flex items-center gap-x-2 rounded text-xs">
             <User className="h-3.5 w-3.5 text-custom-text-200" size={14} />
             <span className="text-xs">{t("contact_sales")}</span>
           </div>
-        </CustomMenu.MenuItem>
+        </CustomMenu.MenuItem> */}
         <div className="my-1 border-t border-custom-border-200" />
         <CustomMenu.MenuItem>
           <button
@@ -87,13 +87,13 @@ export const HelpMenuRoot = observer(function HelpMenuRoot() {
             <span className="text-xs">{t("whats_new")}</span>
           </button>
         </CustomMenu.MenuItem>
-        <CustomMenu.MenuItem
+        {/* <CustomMenu.MenuItem
           onClick={() => window.open("https://go.plane.so/p-discord", "_blank", "noopener,noreferrer")}
         >
           <div className="flex items-center gap-x-2 rounded text-xs">
             <span className="text-xs">Discord</span>
           </div>
-        </CustomMenu.MenuItem>
+        </CustomMenu.MenuItem> */}
         <div className="px-1 pt-2 mt-1 text-xs text-custom-text-200 border-t border-custom-border-200">
           <PlaneVersionNumber />
         </div>

@@ -1,14 +1,15 @@
+/**
+ * Copyright (c) 2023-present Plane Software, Inc. and contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * See the LICENSE file for details.
+ */
+
 import { useState } from "react";
 import { observer } from "mobx-react";
-
+import { MoreHorizontal } from "lucide-react";
 // plane imports
-import {
-  EUserPermissions,
-  EUserPermissionsLevel,
-  MODULE_TRACKER_ELEMENTS,
-  MODULE_TRACKER_EVENTS,
-} from "@plane/constants";
-import { useTranslation } from "@plane/i18n";
+import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import { IconButton } from "@plane/propel/icon-button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TContextMenuItem } from "@plane/ui";
 import { ContextMenu, CustomMenu } from "@plane/ui";
@@ -16,8 +17,6 @@ import { copyUrlToClipboard, cn } from "@plane/utils";
 // components
 import { useModuleMenuItems } from "@/components/common/quick-actions-helper";
 import { ArchiveModuleModal, CreateUpdateModuleModal, DeleteModuleModal } from "@/components/modules";
-// helpers
-import { captureClick, captureSuccess, captureError } from "@/helpers/event-tracker.helper";
 // hooks
 import { useModule } from "@/hooks/store/use-module";
 import { useUserPermissions } from "@/hooks/store/user";
@@ -44,7 +43,6 @@ export const ModuleQuickActions = observer(function ModuleQuickActions(props: Pr
 
   const { getModuleById, restoreModule } = useModule();
 
-  const { t } = useTranslation();
   // derived values
   const moduleDetails = getModuleById(moduleId);
   // auth
@@ -66,32 +64,23 @@ export const ModuleQuickActions = observer(function ModuleQuickActions(props: Pr
     });
   const handleOpenInNewTab = () => window.open(`/${moduleLink}`, "_blank");
 
-  const handleRestoreModule = async () =>
-    await restoreModule(workspaceSlug, projectId, moduleId)
-      .then(() => {
-        setToast({
-          type: TOAST_TYPE.SUCCESS,
-          title: "Restore success",
-          message: "Your module can be found in project modules.",
-        });
-        captureSuccess({
-          eventName: MODULE_TRACKER_EVENTS.restore,
-          payload: { id: moduleId },
-        });
-        router.push(`/${workspaceSlug}/projects/${projectId}/archives/modules`);
-      })
-      .catch((error) => {
-        setToast({
-          type: TOAST_TYPE.ERROR,
-          title: "Error!",
-          message: "Module could not be restored. Please try again.",
-        });
-        captureError({
-          eventName: MODULE_TRACKER_EVENTS.restore,
-          payload: { id: moduleId },
-          error,
-        });
+  const handleRestoreModule = async () => {
+    try {
+      await restoreModule(workspaceSlug, projectId, moduleId);
+      setToast({
+        type: TOAST_TYPE.SUCCESS,
+        title: "Restore success",
+        message: "Your module can be found in project modules.",
       });
+      router.push(`/${workspaceSlug}/projects/${projectId}/archives/modules`);
+    } catch (_error) {
+      setToast({
+        type: TOAST_TYPE.ERROR,
+        title: "Error!",
+        message: "Module could not be restored. Please try again.",
+      });
+    }
+  };
 
   // Use unified menu hook from plane-web (resolves to CE or EE)
   const menuResult = useModuleMenuItems({
@@ -112,15 +101,15 @@ export const ModuleQuickActions = observer(function ModuleQuickActions(props: Pr
   const MENU_ITEMS: TContextMenuItem[] = Array.isArray(menuResult) ? menuResult : menuResult.items;
   const additionalModals = Array.isArray(menuResult) ? null : menuResult.modals;
 
-  const CONTEXT_MENU_ITEMS: TContextMenuItem[] = MENU_ITEMS.map((item) => ({
-    ...item,
-    action: () => {
-      captureClick({
-        elementName: MODULE_TRACKER_ELEMENTS.CONTEXT_MENU,
-      });
-      item.action();
-    },
-  }));
+  const CONTEXT_MENU_ITEMS = MENU_ITEMS.map(function CONTEXT_MENU_ITEMS(item) {
+    return {
+      ...item,
+
+      onClick: () => {
+        item.action();
+      },
+    };
+  });
 
   return (
     <>
@@ -145,34 +134,36 @@ export const ModuleQuickActions = observer(function ModuleQuickActions(props: Pr
         </div>
       )}
       <ContextMenu parentRef={parentRef} items={CONTEXT_MENU_ITEMS} />
-      <CustomMenu ellipsis placement="bottom-end" closeOnSelect buttonClassName={customClassName}>
+      <CustomMenu
+        customButton={<IconButton variant="tertiary" size="lg" icon={MoreHorizontal} />}
+        placement="bottom-end"
+        closeOnSelect
+        buttonClassName={customClassName}
+      >
         {MENU_ITEMS.map((item) => {
           if (item.shouldRender === false) return null;
           return (
             <CustomMenu.MenuItem
               key={item.key}
               onClick={() => {
-                captureClick({
-                  elementName: MODULE_TRACKER_ELEMENTS.QUICK_ACTIONS,
-                });
                 item.action();
               }}
               className={cn(
                 "flex items-center gap-2",
                 {
-                  "text-custom-text-400": item.disabled,
+                  "text-placeholder": item.disabled,
                 },
                 item.className
               )}
               disabled={item.disabled}
             >
-              {item.icon && <item.icon className={cn("h-3 w-3", item.iconClassName)} />}
+              {item.icon && <item.icon className={cn("h-3 w-3 flex-shrink-0", item.iconClassName)} />}
               <div>
                 <h5>{item.title}</h5>
                 {item.description && (
                   <p
-                    className={cn("text-custom-text-300 whitespace-pre-line", {
-                      "text-custom-text-400": item.disabled,
+                    className={cn("whitespace-pre-line text-tertiary", {
+                      "text-placeholder": item.disabled,
                     })}
                   >
                     {item.description}

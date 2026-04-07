@@ -1,22 +1,22 @@
+/**
+ * Copyright (c) 2023-present Plane Software, Inc. and contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * See the LICENSE file for details.
+ */
+
 import { useState } from "react";
 import { observer } from "mobx-react";
-
+import { MoreHorizontal } from "lucide-react";
 // ui
-import {
-  CYCLE_TRACKER_EVENTS,
-  EUserPermissions,
-  EUserPermissionsLevel,
-  CYCLE_TRACKER_ELEMENTS,
-} from "@plane/constants";
+import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
+import { IconButton } from "@plane/propel/icon-button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TContextMenuItem } from "@plane/ui";
 import { ContextMenu, CustomMenu } from "@plane/ui";
 import { copyUrlToClipboard, cn } from "@plane/utils";
-// helpers
 // hooks
 import { useCycleMenuItems } from "@/components/common/quick-actions-helper";
-import { captureClick, captureError, captureSuccess } from "@/helpers/event-tracker.helper";
 import { useCycle } from "@/hooks/store/use-cycle";
 import { useUserPermissions } from "@/hooks/store/user";
 import { useAppRouter } from "@/hooks/use-app-router";
@@ -74,12 +74,6 @@ export const CycleQuickActions = observer(function CycleQuickActions(props: Prop
           title: t("project_cycles.action.restore.success.title"),
           message: t("project_cycles.action.restore.success.description"),
         });
-        captureSuccess({
-          eventName: CYCLE_TRACKER_EVENTS.restore,
-          payload: {
-            id: cycleId,
-          },
-        });
         router.push(`/${workspaceSlug}/projects/${projectId}/archives/cycles`);
       })
       .catch(() => {
@@ -87,12 +81,6 @@ export const CycleQuickActions = observer(function CycleQuickActions(props: Prop
           type: TOAST_TYPE.ERROR,
           title: t("project_cycles.action.restore.failed.title"),
           message: t("project_cycles.action.restore.failed.description"),
-        });
-        captureError({
-          eventName: CYCLE_TRACKER_EVENTS.restore,
-          payload: {
-            id: cycleId,
-          },
         });
       });
 
@@ -116,11 +104,7 @@ export const CycleQuickActions = observer(function CycleQuickActions(props: Prop
   const CONTEXT_MENU_ITEMS = MENU_ITEMS.map(function CONTEXT_MENU_ITEMS(item) {
     return {
       ...item,
-
       action: () => {
-        captureClick({
-          elementName: CYCLE_TRACKER_ELEMENTS.CONTEXT_MENU,
-        });
         item.action();
       },
     };
@@ -155,34 +139,37 @@ export const CycleQuickActions = observer(function CycleQuickActions(props: Prop
         </div>
       )}
       <ContextMenu parentRef={parentRef} items={CONTEXT_MENU_ITEMS} />
-      <CustomMenu ellipsis placement="bottom-end" closeOnSelect maxHeight="lg" buttonClassName={customClassName}>
+      <CustomMenu
+        customButton={<IconButton variant="tertiary" size="lg" icon={MoreHorizontal} />}
+        placement="bottom-end"
+        closeOnSelect
+        maxHeight="lg"
+        buttonClassName={customClassName}
+      >
         {MENU_ITEMS.map((item) => {
           if (item.shouldRender === false) return null;
           return (
             <CustomMenu.MenuItem
               key={item.key}
               onClick={() => {
-                captureClick({
-                  elementName: CYCLE_TRACKER_ELEMENTS.QUICK_ACTIONS,
-                });
                 item.action();
               }}
               className={cn(
                 "flex items-center gap-2",
                 {
-                  "text-custom-text-400": item.disabled,
+                  "text-placeholder": item.disabled,
                 },
                 item.className
               )}
               disabled={item.disabled}
             >
-              {item.icon && <item.icon className={cn("h-3 w-3", item.iconClassName)} />}
+              {item.icon && <item.icon className={cn("h-3 w-3 flex-shrink-0", item.iconClassName)} />}
               <div>
                 <h5>{item.title}</h5>
                 {item.description && (
                   <p
-                    className={cn("text-custom-text-300 whitespace-pre-line", {
-                      "text-custom-text-400": item.disabled,
+                    className={cn("whitespace-pre-line text-tertiary", {
+                      "text-placeholder": item.disabled,
                     })}
                   >
                     {item.description}

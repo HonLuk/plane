@@ -4,13 +4,13 @@
  * See the LICENSE file for details.
  */
 
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { observer } from "mobx-react";
 import Link from "next/link";
-import { Link2, MoveDiagonal, MoveRight, Pencil, Lock } from "lucide-react";
+import { MoveDiagonal, MoveRight } from "lucide-react";
 // plane imports
 import { useTranslation } from "@plane/i18n";
-import { CenterPanelIcon, CopyLinkIcon, FullScreenPanelIcon, SidePanelIcon } from "@plane/propel/icons";
+import { CenterPanelIcon, CopyLinkIcon, EditIcon, FullScreenPanelIcon, LockIcon, SidePanelIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
 import type { TNameDescriptionLoader } from "@plane/types";
@@ -160,8 +160,7 @@ export const IssuePeekOverviewHeader = observer(function IssuePeekOverviewHeader
     <div
       className={`relative flex items-center justify-between p-4 ${
         currentMode?.key === "full-screen" ? "border-b border-subtle" : ""
-      }`}
-    >
+      }`}>
       <div className="flex items-center gap-4">
         <Tooltip tooltipContent={t("common.close_peek_view")} isMobile={isMobile}>
           <button onClick={removeRoutePeekId}>
@@ -185,15 +184,13 @@ export const IssuePeekOverviewHeader = observer(function IssuePeekOverviewHeader
                     <currentMode.icon className="h-4 w-4 text-tertiary hover:text-secondary" />
                   </button>
                 </Tooltip>
-              }
-            >
+              }>
               {PEEK_OPTIONS.map((mode) => (
                 <CustomSelect.Option key={mode.key} value={mode.key}>
                   <div
                     className={`flex items-center gap-1.5 ${
                       currentMode.key === mode.key ? "text-secondary" : "text-placeholder hover:text-secondary"
-                    }`}
-                  >
+                    }`}>
                     <mode.icon className="-my-1 h-4 w-4 flex-shrink-0" />
                     {t(mode.i18n_title)}
                   </div>
@@ -214,12 +211,15 @@ export const IssuePeekOverviewHeader = observer(function IssuePeekOverviewHeader
           </Tooltip>
           <Tooltip
             tooltipContent={isIssueEditNotAllowed ? t("common.actions.edit") : t("common.actions.lock")}
-            isMobile={isMobile}
-          >
-            <button type="button" onClick={toggleEditIssueAllowed}>
-              {isIssueEditNotAllowed && <Pencil className="h-4 w-4 text-custom-text-300 hover:text-custom-text-200" />}
-              {!isIssueEditNotAllowed && <Lock className="h-4 w-4 text-custom-text-300 hover:text-custom-text-200" />}
-            </button>
+            isMobile={isMobile}>
+            <Fragment>
+              {isIssueEditNotAllowed && (
+                <IconButton variant="secondary" size="lg" onClick={toggleEditIssueAllowed} icon={EditIcon} />
+              )}
+              {!isIssueEditNotAllowed && (
+                <IconButton variant="secondary" size="lg" onClick={toggleEditIssueAllowed} icon={LockIcon} />
+              )}
+            </Fragment>
           </Tooltip>
           {issueDetails && (
             <WorkItemDetailQuickActions

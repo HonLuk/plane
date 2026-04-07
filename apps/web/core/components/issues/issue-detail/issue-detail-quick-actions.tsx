@@ -4,12 +4,11 @@
  * See the LICENSE file for details.
  */
 
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { observer } from "mobx-react";
-import { LinkIcon, Pencil, Lock } from "lucide-react";
 // plane imports
 import { useTranslation } from "@plane/i18n";
-import { CopyLinkIcon } from "@plane/propel/icons";
+import { CopyLinkIcon, EditIcon, LockIcon } from "@plane/propel/icons";
 import { IconButton } from "@plane/propel/icon-button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
@@ -155,16 +154,15 @@ export const IssueDetailQuickActions = observer(function IssueDetailQuickActions
             </Tooltip>
             <Tooltip
               tooltipContent={isIssueEditNotAllowed ? t("common.actions.edit") : t("common.actions.lock")}
-              isMobile={isMobile}
-            >
-              <button
-                type="button"
-                className="grid h-5 w-5 place-items-center rounded hover:text-custom-text-200 focus:outline-none focus:ring-2 focus:ring-custom-primary"
-                onClick={toggleIssueEditAllowed}
-              >
-                {isIssueEditNotAllowed && <Pencil className="h-4 w-4" />}
-                {!isIssueEditNotAllowed && <Lock className="h-4 w-4" />}
-              </button>
+              isMobile={isMobile}>
+              <Fragment>
+                {isIssueEditNotAllowed && (
+                  <IconButton variant="secondary" size="lg" onClick={toggleIssueEditAllowed} icon={EditIcon} />
+                )}
+                {!isIssueEditNotAllowed && (
+                  <IconButton variant="secondary" size="lg" onClick={toggleIssueEditAllowed} icon={LockIcon} />
+                )}
+              </Fragment> 
             </Tooltip>
             <WorkItemDetailQuickActions
               parentRef={parentRef}

@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2023-present Plane Software, Inc. and contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * See the LICENSE file for details.
+ */
+
 import { TriangleAlert } from "lucide-react";
 import { cn } from "@plane/utils";
 
@@ -8,13 +14,8 @@ type Props = {
 
 export function ContentLimitBanner({ className, onDismiss }: Props) {
   return (
-    <div
-      className={cn(
-        "flex items-center gap-2 bg-custom-background-80 border-b border-custom-border-200 px-4 py-2.5 text-sm",
-        className
-      )}
-    >
-      <div className="flex items-center gap-2 text-custom-text-200 mx-auto">
+    <div className={cn("text-sm flex items-center gap-2 border-b border-subtle-1 bg-layer-2 px-4 py-2.5", className)}>
+      <div className="mx-auto flex items-center gap-2 text-secondary">
         <span className="text-amber-500">
           <TriangleAlert />
         </span>
@@ -26,7 +27,7 @@ export function ContentLimitBanner({ className, onDismiss }: Props) {
         <button
           type="button"
           onClick={onDismiss}
-          className="ml-auto text-custom-text-300 hover:text-custom-text-200"
+          className="ml-auto text-placeholder hover:text-secondary"
           aria-label="Dismiss content limit warning"
         >
           ✕

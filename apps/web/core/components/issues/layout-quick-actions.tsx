@@ -1,4 +1,8 @@
-"use client";
+/**
+ * Copyright (c) 2023-present Plane Software, Inc. and contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * See the LICENSE file for details.
+ */
 
 import { observer } from "mobx-react";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -6,6 +10,8 @@ import type { TContextMenuItem } from "@plane/ui";
 import { CustomMenu } from "@plane/ui";
 import { copyUrlToClipboard, cn } from "@plane/utils";
 import { useLayoutMenuItems } from "@/components/common/quick-actions-helper";
+import { Ellipsis } from "lucide-react";
+import { IconButton } from "@plane/propel/icon-button";
 
 type Props = {
   workspaceSlug: string;
@@ -13,7 +19,7 @@ type Props = {
   storeType: "PROJECT" | "EPIC";
 };
 
-export const LayoutQuickActions: React.FC<Props> = observer((props) => {
+export const LayoutQuickActions = observer(function LayoutQuickActions(props: Props) {
   const { workspaceSlug, projectId, storeType } = props;
 
   const layoutLink = `${workspaceSlug}/projects/${projectId}/${storeType === "EPIC" ? "epics" : "issues"}`;
@@ -48,7 +54,8 @@ export const LayoutQuickActions: React.FC<Props> = observer((props) => {
         placement="bottom-end"
         closeOnSelect
         maxHeight="lg"
-        className="flex-shrink-0 flex items-center justify-center size-[26px] bg-custom-background-80/70 rounded"
+        className="flex size-[26px] flex-shrink-0 items-center justify-center rounded"
+        customButton={<IconButton size="lg" variant="tertiary" icon={Ellipsis} />}
       >
         {MENU_ITEMS.map((item) => {
           if (item.shouldRender === false) return null;
@@ -57,7 +64,7 @@ export const LayoutQuickActions: React.FC<Props> = observer((props) => {
               key={item.key}
               onClick={item.action}
               className={cn("flex items-center gap-2", {
-                "text-custom-text-400": item.disabled,
+                "text-placeholder": item.disabled,
               })}
               disabled={item.disabled}
             >

@@ -1,10 +1,16 @@
+/**
+ * Copyright (c) 2023-present Plane Software, Inc. and contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * See the LICENSE file for details.
+ */
+
 import { Combobox } from "@headlessui/react";
-import { Check } from "lucide-react";
+
 import React, { createContext, useCallback, useContext, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePopper } from "react-popper";
 import { useOutsideClickDetector } from "@plane/hooks";
-import { ChevronDownIcon } from "@plane/propel/icons";
+import { CheckIcon, ChevronDownIcon } from "@plane/propel/icons";
 // plane helpers
 // hooks
 import { useDropdownKeyDown } from "../hooks/use-dropdown-key-down";
@@ -80,8 +86,8 @@ function CustomSelect(props: ICustomSelectProps) {
               <button
                 ref={setReferenceElement}
                 type="button"
-                className={`flex items-center justify-between gap-1 text-xs rounded ${
-                  disabled ? "cursor-not-allowed text-custom-text-200" : "cursor-pointer hover:bg-custom-background-80"
+                className={`flex items-center justify-between gap-1 rounded text-11 ${
+                  disabled ? "cursor-not-allowed text-secondary" : "cursor-pointer hover:bg-layer-transparent-hover"
                 } ${customButtonClassName}`}
                 onClick={toggleDropdown}
               >
@@ -94,12 +100,12 @@ function CustomSelect(props: ICustomSelectProps) {
                 ref={setReferenceElement}
                 type="button"
                 className={cn(
-                  "flex w-full items-center justify-between gap-1 rounded border-[0.5px] border-custom-border-300",
+                  "flex w-full items-center justify-between gap-1 rounded border border-strong",
                   {
-                    "px-3 py-2 text-sm": input,
-                    "px-2 py-1 text-xs": !input,
-                    "cursor-not-allowed text-custom-text-200": disabled,
-                    "cursor-pointer hover:bg-custom-background-80": !disabled,
+                    "px-3 py-2 text-13": input,
+                    "px-2 py-1 text-11": !input,
+                    "cursor-not-allowed text-secondary": disabled,
+                    "cursor-pointer hover:bg-layer-transparent-hover": !disabled,
                   },
                   buttonClassName
                 )}
@@ -116,7 +122,7 @@ function CustomSelect(props: ICustomSelectProps) {
             <Combobox.Options data-prevent-outside-click>
               <div
                 className={cn(
-                  "my-1 overflow-y-scroll rounded-md border-[0.5px] border-custom-border-300 bg-custom-background-100 px-2 py-2.5 text-xs shadow-custom-shadow-rg focus:outline-none min-w-48 whitespace-nowrap z-30",
+                  "z-30 my-1 min-w-48 overflow-y-scroll rounded-md border-[0.5px] border-subtle-1 bg-surface-1 px-2 py-2.5 text-11 whitespace-nowrap focus:outline-none",
                   optionsClassName
                 )}
                 ref={setPopperElement}
@@ -160,9 +166,9 @@ function Option(props: ICustomSelectItemProps) {
       value={value}
       className={({ active }) =>
         cn(
-          "cursor-pointer select-none truncate rounded px-1 py-1.5 text-custom-text-200 flex items-center justify-between gap-2",
+          "flex cursor-pointer items-center justify-between gap-2 truncate rounded-sm px-1 py-1.5 text-secondary select-none",
           {
-            "bg-custom-background-80": active,
+            "bg-layer-transparent-hover": active,
           },
           className
         )
@@ -170,9 +176,9 @@ function Option(props: ICustomSelectItemProps) {
       onClick={handleClick}
     >
       {({ selected }) => (
-        <div className="flex items-center justify-between gap-2 w-full">
+        <div className="flex w-full items-center justify-between gap-2">
           {children}
-          {selected && <Check className="h-3.5 w-3.5 flex-shrink-0" />}
+          {selected && <CheckIcon className="h-3.5 w-3.5 flex-shrink-0" />}
         </div>
       )}
     </Combobox.Option>

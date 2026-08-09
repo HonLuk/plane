@@ -24,6 +24,7 @@ import { useUserPermissions } from "@/hooks/store/user";
 import { useAppRouter } from "@/hooks/use-app-router";
 // local components
 import { IssuePeekOverview } from "../peek-overview";
+import { useIssueEditNotAllowedContext } from "./issue-edit-not-allowed-context";
 import { IssueMainContent } from "./main-content";
 import { IssueDetailsSidebar } from "./sidebar";
 
@@ -214,6 +215,7 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
       t,
     ]
   );
+  const { isIssueEditNotAllowed } = useIssueEditNotAllowedContext();
 
   // issue details
   const issue = getIssueById(issueId);
@@ -245,7 +247,7 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
               projectId={projectId}
               issueId={issueId}
               issueOperations={issueOperations}
-              isEditable={isEditable}
+              isEditable={isEditable && !isIssueEditNotAllowed}
               isArchived={is_archived}
             />
           </div>
@@ -258,7 +260,7 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
               projectId={projectId}
               issueId={issueId}
               issueOperations={issueOperations}
-              isEditable={!is_archived && isEditable}
+              isEditable={!is_archived && isEditable && !isIssueEditNotAllowed}
             />
           </div>
         </div>

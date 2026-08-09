@@ -4,11 +4,11 @@
  * See the LICENSE file for details.
  */
 
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { observer } from "mobx-react";
 // plane imports
 import { useTranslation } from "@plane/i18n";
-import { CopyLinkIcon } from "@plane/propel/icons";
+import { CopyLinkIcon, EditIcon, LockIcon } from "@plane/propel/icons";
 import { IconButton } from "@plane/propel/icon-button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
@@ -23,6 +23,7 @@ import { useAppRouter } from "@/hooks/use-app-router";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 // local imports
 import { WorkItemDetailQuickActions } from "../issue-layouts/quick-action-dropdowns";
+import { useIssueEditNotAllowedContext } from "./issue-edit-not-allowed-context";
 import { IssueSubscription } from "./subscription";
 
 type Props = {
@@ -56,6 +57,7 @@ export const IssueDetailQuickActions = observer(function IssueDetailQuickActions
   const {
     issues: { removeIssue: removeArchivedIssue },
   } = useIssues(EIssuesStoreType.ARCHIVED);
+  const { isIssueEditNotAllowed, toggleIssueEditAllowed } = useIssueEditNotAllowedContext();
 
   // derived values
   const issue = getIssueById(issueId);
@@ -150,6 +152,18 @@ export const IssueDetailQuickActions = observer(function IssueDetailQuickActions
           <div className="flex flex-wrap items-center gap-2 text-tertiary">
             <Tooltip tooltipContent={t("common.actions.copy_link")} isMobile={isMobile}>
               <IconButton variant="secondary" size="lg" onClick={handleCopyText} icon={CopyLinkIcon} />
+            </Tooltip>
+            <Tooltip
+              tooltipContent={isIssueEditNotAllowed ? t("common.actions.edit") : t("common.actions.lock")}
+              isMobile={isMobile}>
+              <Fragment>
+                {isIssueEditNotAllowed && (
+                  <IconButton variant="secondary" size="lg" onClick={toggleIssueEditAllowed} icon={EditIcon} />
+                )}
+                {!isIssueEditNotAllowed && (
+                  <IconButton variant="secondary" size="lg" onClick={toggleIssueEditAllowed} icon={LockIcon} />
+                )}
+              </Fragment> 
             </Tooltip>
             <WorkItemDetailQuickActions
               parentRef={parentRef}

@@ -59,6 +59,7 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
   });
   const [isResizing, setIsResizing] = useState(false);
   const [initialResizeComplete, setInitialResizeComplete] = useState(false);
+  const [toggleFullScreenMethod, setToggleFullScreenMethod] = useState<((val: boolean) => void) | null>(null);
   // refs
   const containerRef = useRef<HTMLDivElement>(null);
   const containerRect = useRef<DOMRect | null>(null);
@@ -103,7 +104,7 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
 
     if (nodeWidth === "35%") {
       const editorWidth = closestEditorContainer.clientWidth;
-      const initialWidth = Math.max(editorWidth * 0.35, MIN_SIZE);
+      const initialWidth = Math.max(editorWidth * 1, MIN_SIZE);
       const initialHeight = initialWidth / aspectRatioCalculated;
 
       const initialComputedSize: TCustomImageSize = {
@@ -202,12 +203,16 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
         e.preventDefault();
         editor.commands.blur();
       }
+      if (!editor.isEditable && toggleFullScreenMethod) {
+        toggleFullScreenMethod(true);
+        return;
+      }
       const pos = getPos();
       if (pos === undefined) return;
       const nodeSelection = NodeSelection.create(editor.state.doc, pos);
       editor.view.dispatch(editor.state.tr.setSelection(nodeSelection));
     },
-    [editor, getPos, isTouchDevice]
+    [editor, getPos, isTouchDevice, toggleFullScreenMethod]
   );
 
   const isDuplicating = isImageDuplicating(status);
@@ -241,6 +246,7 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
         onMouseDown={handleImageMouseDown}
         style={{
           width: size.width,
+          cursor: editor.isEditable ? "" : "zoom-in",
           ...(size.aspectRatio && { aspectRatio: size.aspectRatio }),
         }}
       >
@@ -317,6 +323,7 @@ export function CustomImageBlock(props: CustomImageBlockProps) {
             isTouchDevice={isTouchDevice}
             width={size.width}
             src={resolvedImageSrc}
+            setToggleFullScreenMethod={setToggleFullScreenMethod}
           />
         )}
         {selected && displayedImageSrc === resolvedImageSrc && (

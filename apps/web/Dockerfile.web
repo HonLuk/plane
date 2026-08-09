@@ -10,7 +10,15 @@ RUN corepack enable
 # STAGE 1: Build the project
 # *****************************************************************************
 FROM base AS builder
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache \
+    git \
+    python3 \
+    make \
+    g++ \
+    vips-dev \
+    # 添加这些替代依赖
+    gcompat \
+    libstdc++
 # Set working directory
 WORKDIR /app
 
@@ -26,7 +34,15 @@ RUN turbo prune --scope=web --docker
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
 
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache \
+    git \
+    python3 \
+    make \
+    g++ \
+    vips-dev \
+    # 添加这些替代依赖
+    gcompat \
+    libstdc++
 WORKDIR /app
 
 # First install the dependencies (as they change less often)

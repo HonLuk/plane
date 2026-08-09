@@ -34,7 +34,6 @@ export const WorkspaceEditionBadge = observer(function WorkspaceEditionBadge() {
         <Button
           variant="tertiary"
           size="lg"
-          onClick={() => setIsPaidPlanPurchaseModalOpen(true)}
           aria-haspopup="dialog"
           aria-label={t("aria_labels.projects_sidebar.edition_badge")}
         >

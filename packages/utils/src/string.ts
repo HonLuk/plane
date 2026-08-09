@@ -65,16 +65,17 @@ export const createSimilarString = (str: string) => {
 /**
  * @description Copies full URL (origin + path) to clipboard
  * @param {string} path - URL path to copy
+ * @param {string} prependText - prepend Text
  * @returns {Promise<void>} Promise that resolves when copying is complete
  * @example
  * await copyUrlToClipboard("issues/123") // copies "https://example.com/issues/123"
  */
-export const copyUrlToClipboard = async (path: string) => {
+export const copyUrlToClipboard = async (path: string, prependText?: string) => {
   // get origin or default to empty string if not in browser
   const originUrl = typeof window !== "undefined" ? window.location.origin : "";
   // create URL object and ensure proper path formatting
   const url = new URL(path, originUrl);
-  await copyTextToClipboard(url.toString());
+  await copyTextToClipboard(prependText ? `${prependText}\n${url.toString()}` : url.toString());
 };
 
 /**

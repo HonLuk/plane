@@ -13,7 +13,7 @@ import { IconButton } from "@plane/propel/icon-button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
 import { EIssuesStoreType } from "@plane/types";
-import { generateWorkItemLink, copyTextToClipboard } from "@plane/utils";
+import { generateWorkItemLink, copyTextToClipboard, copyUrlToClipboard } from "@plane/utils";
 // hooks
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { useIssues } from "@/hooks/store/use-issues";
@@ -72,10 +72,11 @@ export const IssueDetailQuickActions = observer(function IssueDetailQuickActions
   });
 
   // handlers
+
   const handleCopyText = async () => {
     try {
       const originURL = typeof window !== "undefined" && window.location.origin ? window.location.origin : "";
-      await copyTextToClipboard(`${originURL}${workItemLink}`);
+      await copyUrlToClipboard(workItemLink, issue?.name);
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.link_copied"),

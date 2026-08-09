@@ -175,7 +175,7 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
   };
 
   const handleCopyIssueLink = (path: string) =>
-    copyUrlToClipboard(path).then(() =>
+    copyUrlToClipboard(path, issue?.name).then(() =>
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.link_copied"),

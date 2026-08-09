@@ -49,7 +49,7 @@ export const CreateIssueToastActionItems = observer(function CreateIssueToastAct
 
   const copyToClipboard = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     try {
-      await copyUrlToClipboard(workItemLink);
+      await copyUrlToClipboard(workItemLink, issue?.name);
       setCopied(true);
       setTimeout(() => setCopied(false), 3000);
     } catch (_error) {

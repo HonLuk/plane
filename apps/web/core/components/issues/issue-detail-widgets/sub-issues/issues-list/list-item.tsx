@@ -205,8 +205,10 @@ export const SubIssuesListItem = observer(function SubIssuesListItem(props: Prop
                 )}
 
                 <CustomMenu.MenuItem
-                  onClick={() => {
-                    subIssueOperations.copyLink(workItemLink);
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    subIssueOperations.copyLink(workItemLink, issue?.name);
                   }}
                 >
                   <div className="flex items-center gap-2">

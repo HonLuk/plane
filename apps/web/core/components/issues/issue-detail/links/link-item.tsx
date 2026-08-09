@@ -84,7 +84,7 @@ export const IssueLinkItem = observer(function IssueLinkItem(props: TIssueLinkIt
           </p>
           <span
             onClick={() => {
-              copyTextToClipboard(linkDetail.url);
+              copyTextToClipboard(linkDetail.title ? `${linkDetail.title}\n${linkDetail.url}` : linkDetail.url);
               setToast({
                 type: TOAST_TYPE.SUCCESS,
                 title: t("common.link_copied"),
